@@ -57,15 +57,17 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'required | min:8'
+          'password'=>'nullable | min:8'
         ]);
         try{
         $users = User::find($req->id);
         $users->name=$req->name;
         $users->email=$req->email;
+        if (isset($req->password))
         $users->password=Hash::make($req->password);
-        $users->role="purchasing_staff";
-        $users->save();}catch (\Exception $e) {
+        $users->role=$req->role;
+        $users->save();
+        }catch (\Exception $e) {
           return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
         }
         return redirect()->action('App\Http\Controllers\Admin\DashboardController@index');
@@ -122,14 +124,15 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'required | min:8'
+          'password'=>'nullable | min:8'
         ]);
         try{
         $users = User::find($req->id);
         $users->name=$req->name;
         $users->email=$req->email;
+        if (isset($req->password))
         $users->password=Hash::make($req->password);
-        $users->role="warehouse_staff";
+        $users->role=$req->role;
         $users->save();}catch (\Exception $e) {
           return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
         }

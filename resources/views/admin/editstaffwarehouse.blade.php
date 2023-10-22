@@ -33,6 +33,13 @@
 
     <label for="password">Password:</label><br>
     <input type="text" class="form-control w-75" id="password" name="password"><br>
+
+    <label for="role">Role:</label><br>
+    <select class="form-control w-75" name="role" id="role">
+        <option value="">--Select a role--</option>
+        <option value="warehouse_staff" {!! old('role', $users->role) == "warehouse_staff" ? 'selected="selected"' : '' !!}>Warehouse Staff</option>
+        <option value="purchasing_staff" {!! old('role', $users->role) == "purchasing_staff" ? 'selected="selected"' : '' !!}>Purchasing Staff</option>
+    </select>
 </div>
 <br>
 <a><button type="submit" class="btn btn-success">Update</button></a>
