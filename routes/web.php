@@ -77,4 +77,5 @@ Route::get('/warehousestaff_product', 'App\Http\Controllers\WarehouseStaff\Dashb
 Route::get('/warehousestaff_addnewproduct', 'App\Http\Controllers\WarehouseStaff\DashboardController@addNewProduct')->middleware('role:warehouse_staff');
 Route::post('/warehousestaff_storeproduct', 'App\Http\Controllers\WarehouseStaff\DashboardController@storeProduct')->middleware('role:warehouse_staff');
 Route::get('/warehousestaff_edit/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@showProductData')->middleware('role:warehouse_staff');
+Route::get('/warehousestaff_delete/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@deleteProduct')->middleware('role:warehouse_staff');
 Route::post('/warehouse_edit', 'App\Http\Controllers\WarehouseStaff\DashboardController@edit')->middleware('role:warehouse_staff');

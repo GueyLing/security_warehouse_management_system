@@ -336,6 +336,12 @@ class DashboardController extends Controller
         return view('warehouse_staff.showproduct',['stocks'=>$stocks]);
       }
 
+      public function deleteProduct($id){
+        $stocks = Stock::find($id);
+        $stocks->delete();
+        return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance');
+      }
+
       public function edit(Request $req){
       
         $users = Stock::find($req->id);

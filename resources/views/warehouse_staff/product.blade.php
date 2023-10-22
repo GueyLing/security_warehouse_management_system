@@ -27,7 +27,10 @@
             <td>{{ $item->product_name }}</td>
             <td>{{ $item->location }}</td>
             <td>{{ $item->low_stock_alert }}</td>
-            <td><a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@showProductData', $item->id) }}" class="btn btn-secondary btn-icon fas fa-edit"> <span class="material-icons-outlined"></span></a></td>
+            <td><a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@showProductData', $item->id) }}" class="btn btn-secondary btn-icon fas fa-edit"> <span class="material-icons-outlined"></span></a>
+            <a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@deleteProduct', $item->id) }}" class="btn btn-danger btn-icon fas fa-trash-alt"> <span class="material-icons-outlined"></span></a>
+            <i class="bi bi-trash"></i>
+            </td>
         </tr>
         @endforeach
     </table>  
