@@ -9,6 +9,7 @@
         <ul>
             <li><a href="{{ action('App\Http\Controllers\Admin\DashboardController@index') }}"  style="text-decoration: none"><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;Purchasing Staff</a></li>
             <li><a href="{{ action('App\Http\Controllers\Admin\DashboardController@indexWarehouse') }}" style="text-decoration: none"><i class="fas fa-address-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;Warehouse Staff</a></li>
+            <li><a href="{{ action('App\Http\Controllers\Admin\DashboardController@logging') }}" style="text-decoration: none"><i class="fas fa-industry"></i>&nbsp;&nbsp;&nbsp;&nbsp;Logging and Analytics</a></li>
         </ul> 
     </div>
     

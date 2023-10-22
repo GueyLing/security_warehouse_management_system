@@ -29,6 +29,7 @@ Route::post('/admin_store', 'App\Http\Controllers\Admin\DashboardController@stor
 Route::get('/admin_delete/{id}', 'App\Http\Controllers\Admin\DashboardController@delete')->middleware('role:admin');
 Route::get('/admin_edit/{id}', 'App\Http\Controllers\Admin\DashboardController@showData')->middleware('role:admin');
 Route::post('/admin_edit', 'App\Http\Controllers\Admin\DashboardController@edit')->middleware('role:admin');
+Route::get('/logging', 'App\Http\Controllers\Admin\DashboardController@logging')->middleware('role:admin');
 
 
 Route::get('/admin_warehousestaff', 'App\Http\Controllers\Admin\DashboardController@indexWarehouse')->middleware('role:admin');

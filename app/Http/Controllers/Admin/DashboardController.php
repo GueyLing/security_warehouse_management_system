@@ -6,6 +6,8 @@ use Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Logging;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -36,7 +38,16 @@ class DashboardController extends Controller
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="purchasing_staff";
-        $users->save();}catch (\Exception $e) {
+        // $users->by_admin = Auth::user()->name;
+        // $users->action="Added new purchasing staff";
+        $users->save();
+          
+        $logs = new Logging;
+        $logs->admin_name = Auth::user()->name;
+        $logs->action="Added new purchasing staff";
+        $logs->employee_name = $req->name;
+        $logs->save();
+      }catch (\Exception $e) {
         return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
       }
         return redirect()->action('App\Http\Controllers\Admin\DashboardController@index');
@@ -67,6 +78,12 @@ class DashboardController extends Controller
         $users->password=Hash::make($req->password);
         $users->role=$req->role;
         $users->save();
+
+        $logs = new Logging;
+        $logs->admin_name = Auth::user()->name;
+        $logs->action="Edited purchasing staff info";
+        $logs->employee_name = $req->name;
+        $logs->save();
         }catch (\Exception $e) {
           return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
         }
@@ -103,7 +120,16 @@ class DashboardController extends Controller
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="warehouse_staff";
-        $users->save();}catch (\Exception $e) {
+        // $users->by_admin = Auth::user()->name;
+        // $users->action="Added new warehouse staff";
+        $users->save();
+
+        $logs = new Logging;
+        $logs->admin_name = Auth::user()->name;
+        $logs->action="Added new warehouse staff";
+        $logs->employee_name = $req->name;
+        $logs->save();
+      }catch (\Exception $e) {
         return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
       }
         return redirect()->action('App\Http\Controllers\Admin\DashboardController@indexWarehouse');
@@ -133,9 +159,24 @@ class DashboardController extends Controller
         if (isset($req->password))
         $users->password=Hash::make($req->password);
         $users->role=$req->role;
-        $users->save();}catch (\Exception $e) {
+        $users->save();
+
+        $logs = new Logging;
+        $logs->admin_name = Auth::user()->name;
+        $logs->action="Edited warehouse staff info";
+        $logs->employee_name = $req->name;
+        $logs->save();
+      
+      }catch (\Exception $e) {
           return redirect()->back()->with('error','Data is not added successfully. Please use another email. ');
         }
         return redirect()->action('App\Http\Controllers\Admin\DashboardController@indexWarehouse');
+      }
+
+      public function logging() {
+        $users = Logging::orderBy('updated_at', 'desc')->get();
+        return view('admin.logging', [
+          'users' => $users,
+      ]);
       }
 }
