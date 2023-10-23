@@ -17,9 +17,11 @@ class DashboardController extends Controller
 
       public function index() {
         $users = User::where('role', '=','purchasing_staff')->get();
-        return view('admin.dashboard', [
-          'users' => $users,
-      ]);
+        foreach ($users as $user) {
+          $user->phone_no = decrypt($user->phone_no);
+          $user->ic_passport_no = decrypt($user->ic_passport_no);
+      }
+        return view('admin.dashboard', compact('users'));
       }
 
       public function addStaff(){
@@ -38,6 +40,8 @@ class DashboardController extends Controller
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="purchasing_staff";
+        $users->phone_no=encrypt($req->phone_no);
+        $users->ic_passport_no=encrypt($req->ic_passport_no);
         // $users->by_admin = Auth::user()->name;
         // $users->action="Added new purchasing staff";
         $users->save();
@@ -61,7 +65,11 @@ class DashboardController extends Controller
 
       public function showData($id){
         $users = User::find($id);
-        return view('admin.editstaff',['users'=>$users]);
+        if ($users) {
+          $users->phone_no = decrypt($users->phone_no);
+          $users->ic_passport_no = decrypt($users->ic_passport_no);
+      }  
+      return view('admin.editstaff', compact('users'));
       }
 
       public function edit(Request $req){
@@ -76,6 +84,8 @@ class DashboardController extends Controller
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
+        $users->phone_no=encrypt($req->phone_no);
+        $users->ic_passport_no=encrypt($req->ic_passport_no);
         $users->role=$req->role;
         $users->save();
 
@@ -98,9 +108,11 @@ class DashboardController extends Controller
 
       public function indexWarehouse() {
         $users = User::where('role', '=','warehouse_staff')->get();
-        return view('admin.warehouselist', [
-          'users' => $users,
-      ]);
+        foreach ($users as $user) {
+          $user->phone_no = decrypt($user->phone_no);
+          $user->ic_passport_no = decrypt($user->ic_passport_no);
+      }
+        return view('admin.warehouselist', compact('users'));
       }
 
       public function addStaffWarehouse(){
@@ -120,6 +132,8 @@ class DashboardController extends Controller
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="warehouse_staff";
+        $users->phone_no=encrypt($req->phone_no);
+        $users->ic_passport_no=encrypt($req->ic_passport_no);
         // $users->by_admin = Auth::user()->name;
         // $users->action="Added new warehouse staff";
         $users->save();
@@ -143,7 +157,11 @@ class DashboardController extends Controller
 
       public function showDataWarehouse($id){
         $users = User::find($id);
-        return view('admin.editstaffwarehouse',['users'=>$users]);
+        if ($users) {
+          $users->phone_no = decrypt($users->phone_no);
+          $users->ic_passport_no = decrypt($users->ic_passport_no);
+      }  
+      return view('admin.editstaffwarehouse', compact('users'));
       }
 
       public function editWarehouse(Request $req){
@@ -158,6 +176,8 @@ class DashboardController extends Controller
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
+        $users->phone_no=encrypt($req->phone_no);
+        $users->ic_passport_no=encrypt($req->ic_passport_no);
         $users->role=$req->role;
         $users->save();
 

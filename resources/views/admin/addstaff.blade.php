@@ -33,6 +33,11 @@
     <label for="password">Password:</label><br>
     <input type="text" class="form-control w-75" id="password" name="password" value="{{old('password')}}"><br>
 
+    <label for="phone_no">Phone Number:</label><br>
+    <input type="text" class="form-control w-75" id="phone_no" name="phone_no" value="{{old('phone_no')}}"><br>
+
+    <label for="ic_passport_no">IC Number/ Passport Number:</label><br>
+    <input type="text" class="form-control w-75" id="ic_passport_no" name="ic_passport_no" value="{{old('ic_passport_no')}}"><br>
     {{-- <label for="role">Role:</label><br>
     <select class="form-control w-75" name="role" id="role">
     <option value="">--Select a role--</option>
@@ -40,9 +45,9 @@
     <option value="warehouse_staff" @if (old('role') == "warehouse_staff") {{ 'selected' }} @endif>Warehouse Staff</option>
     </select> --}}
 </div>
-<br>
 <a><button type="submit" class="btn btn-success">Add</button></a>
 <a role="button" href="{{ action('App\Http\Controllers\Admin\DashboardController@index') }}" class="btn btn-secondary">Cancel</a>
+<br><br>
 </form>
     </div>
 </div>

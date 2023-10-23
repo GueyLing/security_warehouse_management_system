@@ -34,6 +34,12 @@
     <label for="password">Password:</label><br>
     <input type="text" class="form-control w-75" id="password" name="password"><br>
 
+    <label for="phone_no">Phone Number:</label><br>
+    <input type="text" class="form-control w-75" id="phone_no" name="phone_no" value="{{ (Input::old('phone_no')) ?: $users->phone_no }}"><br>
+
+    <label for="ic_passport_no">IC Number/ Passport Number:</label><br>
+    <input type="text" class="form-control w-75" id="ic_passport_no" name="ic_passport_no" value="{{ (Input::old('ic_passport_no')) ?: $users->ic_passport_no }}"><br>
+
     <label for="role">Role:</label><br>
     <select class="form-control w-75" name="role" id="role">
         <option value="">--Select a role--</option>
