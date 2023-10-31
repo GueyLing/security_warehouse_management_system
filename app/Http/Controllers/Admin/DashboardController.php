@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Logging;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\StrongPassword;
 
 class DashboardController extends Controller
 {
@@ -32,7 +33,7 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'required | min:8'
+          'password'=>['required', 'string', 'min:8', new StrongPassword]
         ]);
         try{
         $users = new User;
@@ -123,7 +124,7 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'required | min:8'
+          'password'=>['required', 'string', 'min:8', new StrongPassword]
         ]);
         
         try{
