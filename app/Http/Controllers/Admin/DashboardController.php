@@ -33,16 +33,18 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>['required', 'string', 'min:8', new StrongPassword]
+          'password'=>['required', 'string', 'min:8', new StrongPassword],
+          'phone_no'=>'min:10',
+          'ic_passport_no'=>'min:12'
         ]);
         try{
         $users = new User;
-        $users->name=$req->name;
+        $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="purchasing_staff";
-        $users->phone_no=encrypt($req->phone_no);
-        $users->ic_passport_no=encrypt($req->ic_passport_no);
+        $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
+        $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         // $users->by_admin = Auth::user()->name;
         // $users->action="Added new purchasing staff";
         $users->save();
@@ -77,16 +79,18 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'nullable | min:8'
+          'password'=>['nullable','min:8', new StrongPassword],
+          'phone_no'=>'min:10',
+          'ic_passport_no'=>'min:12'
         ]);
         try{
         $users = User::find($req->id);
-        $users->name=$req->name;
+        $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
-        $users->phone_no=encrypt($req->phone_no);
-        $users->ic_passport_no=encrypt($req->ic_passport_no);
+        $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
+        $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         $users->role=$req->role;
         $users->save();
 
@@ -124,17 +128,19 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>['required', 'string', 'min:8', new StrongPassword]
+          'password'=>['required', 'string', 'min:8', new StrongPassword],
+          'phone_no'=>'min:10',
+          'ic_passport_no'=>'min:12'
         ]);
         
         try{
         $users = new User;
-        $users->name=$req->name;
+        $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="warehouse_staff";
-        $users->phone_no=encrypt($req->phone_no);
-        $users->ic_passport_no=encrypt($req->ic_passport_no);
+        $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
+        $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         // $users->by_admin = Auth::user()->name;
         // $users->action="Added new warehouse staff";
         $users->save();
@@ -169,16 +175,18 @@ class DashboardController extends Controller
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
-          'password'=>'nullable | min:8'
+          'password'=>['nullable', 'min:8', new StrongPassword],
+          'phone_no'=>'min:10',
+          'ic_passport_no'=>'min:12'
         ]);
         try{
         $users = User::find($req->id);
-        $users->name=$req->name;
+        $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
-        $users->phone_no=encrypt($req->phone_no);
-        $users->ic_passport_no=encrypt($req->ic_passport_no);
+        $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
+        $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         $users->role=$req->role;
         $users->save();
 
