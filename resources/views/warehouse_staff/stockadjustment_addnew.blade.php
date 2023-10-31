@@ -188,7 +188,6 @@
                     return;
                 }
                 else {
-      
                     // Creates a new XMLHttpRequest object
                     var xmlhttp = new XMLHttpRequest();
                     xmlhttp.onreadystatechange = function () {

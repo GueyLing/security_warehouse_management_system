@@ -125,14 +125,14 @@ class DashboardController extends Controller
      {
 
       $stockissue = new Stockissue;
-      $stockissue ->invoice_prefix =$req ->invoice_prefix;
-      $stockissue ->date =$req ->date;
-      $stockissue ->customer =$req ->customer;
-      $stockissue ->prod_code =$req ->get('prod_code')[$key];
-      $stockissue ->prod_name =$req ->get('prod_name')[$key];
-      $stockissue ->qty =$req ->get('qty')[$key];
-      $stockissue ->location = $req ->get('location')[$key];
-      $stockissue ->remark =$req ->get('location')[$key];
+      $stockissue ->invoice_prefix = filter_var($req ->invoice_prefix, FILTER_SANITIZE_STRING);
+      $stockissue ->date = filter_var($req ->date, FILTER_SANITIZE_STRING);
+      $stockissue ->customer = filter_var($req ->customer, FILTER_SANITIZE_STRING);
+      $stockissue ->prod_code = filter_var($req ->get('prod_code')[$key], FILTER_SANITIZE_STRING);
+      $stockissue ->prod_name = filter_var($req ->get('prod_name')[$key], FILTER_SANITIZE_STRING);
+      $stockissue ->qty = filter_var($req ->get('qty')[$key], FILTER_SANITIZE_NUMBER_INT);
+      $stockissue ->location =  filter_var($req ->get('location')[$key], FILTER_SANITIZE_STRING);
+      $stockissue ->remark = filter_var($req ->get('remark')[$key], FILTER_SANITIZE_STRING);
       $stockissue ->save();
 
       $stock = Stock::where('code', '=', $req->get('prod_code')[$key])->first();
@@ -140,10 +140,10 @@ class DashboardController extends Controller
       $stock->save();
       
       $newactivity = new Activitylog;
-      $newactivity ->location =  $req->get('location')[$key];
-      $newactivity ->product_name = $req->get('prod_name')[$key];
-      $newactivity ->code = $req->get('prod_code')[$key];
-      $newactivity ->quantity = $stock->quantity;
+      $newactivity ->location =   filter_var($req->get('location')[$key], FILTER_SANITIZE_STRING);
+      $newactivity ->product_name =  filter_var($req->get('prod_name')[$key], FILTER_SANITIZE_STRING);
+      $newactivity ->code =  filter_var($req->get('prod_code')[$key], FILTER_SANITIZE_STRING);
+      $newactivity ->quantity =  $stock->quantity;
       $newactivity ->variance = '-'.$req->get('qty')[$key];
       $newactivity ->activity="Stock Issue";
       // mention other fields here
@@ -249,7 +249,8 @@ class DashboardController extends Controller
       $user_id = $req->id;
 
       // Database connection
-      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system");
+      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system", 3307);
+      
     
       if ($user_id !== "") {
     
@@ -323,10 +324,10 @@ class DashboardController extends Controller
 
       public function storeProduct(Request $request){    
              $item = new Stock;
-             $item ->location = $request->location;
-             $item ->product_name = $request->product_name;
-             $item ->code = $request->code;
-             $item ->low_stock_alert = $request->low_stock_alert;
+             $item ->location = filter_var($request->location, FILTER_SANITIZE_STRING);
+             $item ->product_name = filter_var($request->product_name, FILTER_SANITIZE_STRING);
+             $item ->code = filter_var($request->code, FILTER_SANITIZE_STRING);
+             $item ->low_stock_alert = filter_var($request->low_stock_alert,  FILTER_SANITIZE_NUMBER_INT);
              $item ->save(); 
         return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance');
       }
@@ -345,10 +346,10 @@ class DashboardController extends Controller
       public function edit(Request $req){
       
         $users = Stock::find($req->id);
-        $users->product_name=$req->product_name;
-        $users->code=$req->code;
-        $users->location=$req->location;
-        $users->low_stock_alert=$req->low_stock_alert;
+        $users->product_name=filter_var($req->product_name, FILTER_SANITIZE_STRING);
+        $users->code=filter_var($req->code, FILTER_SANITIZE_STRING);
+        $users->location=filter_var($req->location, FILTER_SANITIZE_STRING);
+        $users->low_stock_alert=filter_var($req->low_stock_alert, FILTER_SANITIZE_NUMBER_INT);
         $users->save();      
         return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance');
       }
