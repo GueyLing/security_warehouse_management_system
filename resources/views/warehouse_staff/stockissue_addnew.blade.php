@@ -171,11 +171,11 @@ border-radius: 4px;
                             // received to first name input field
                               
                             document.getElementById
-                                ("product_name"+code).value = myObj[0];
+                                ("product_name"+code).value = myObj.product;
                                 // document.getElementById
                                 // ("quantity"+code).value = myObj[1];
                                 document.getElementById
-                                ("location"+code).value = myObj[2];
+                                ("location"+code).value = myObj.location;
                               
                             // Assign the value received to
                             // last name input field
@@ -185,7 +185,7 @@ border-radius: 4px;
                     };
       
                     // xhttp.open("GET", "filename", true);
-                    xmlhttp.open("GET", "/warehousestaff_retrievestockreceived/" + str, true);
+                    xmlhttp.open("GET", "/warehousestaff_retrieve/" + str, true);
                       
                     // Sends the request to the server
                     xmlhttp.send();

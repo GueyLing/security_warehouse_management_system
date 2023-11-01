@@ -215,65 +215,28 @@ class DashboardController extends Controller
       return view('warehouse_staff.showstockadjustment',['stocks'=>$stocks]);
     }
 
-    public function retrieveStockReceive(Request $req){
-      $user_id = $req->id;
+    public function retrieve(Request $request){
+      $user_id = $request->id;
 
-      // Database connection
-      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system");
-    
-      if ($user_id !== "") {
-    
-          // Get corresponding first name and
-          // last name for that user id
-          $query = mysqli_query($con, "SELECT product_name, quantity, location
-           FROM stocks WHERE code='$user_id'");
-    
-          $row = mysqli_fetch_array($query);
-    
-          // Get the first name
-          $product = $row["product_name"];
-          $quantity = $row["quantity"];
-          $location = $row["location"];
-          
-      }
-    
-      // Store it in a array
-      $result = array("$product", "$quantity", "$location");
-    
-      // Send in JSON encoded form
-      $myJSON = json_encode($result);
-      echo $myJSON;
+    if ($user_id !== "") {
+        $stock = Stock::where('code', $user_id)->first();
+
+        if ($stock) {
+            $product = $stock->product_name;
+            $quantity = $stock->quantity;
+            $location = $stock->location;
+
+            $result = [
+                'product' => $product,
+                'quantity' => $quantity,
+                'location' => $location,
+            ];
+
+            return response()->json($result);
+        }
     }
 
-    public function retrieve(Request $req){
-      $user_id = $req->id;
-
-      // Database connection
-      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system", 3307);
-      
-    
-      if ($user_id !== "") {
-    
-          // Get corresponding first name and
-          // last name for that user id
-          $query = mysqli_query($con, "SELECT product_name, quantity, location
-           FROM stocks WHERE code='$user_id'");
-    
-          $row = mysqli_fetch_array($query);
-    
-          // Get the first name
-          $product = $row["product_name"];
-          $quantity = $row["quantity"];
-          $location = $row["location"];
-          
-      }
-    
-      // Store it in a array
-      $result = array("$product", "$quantity", "$location");
-    
-      // Send in JSON encoded form
-      $myJSON = json_encode($result);
-      echo $myJSON;
+    return response()->json(['error' => 'Stock not found'], 404);
     }
 
     public function addStockReceive(Request $req){

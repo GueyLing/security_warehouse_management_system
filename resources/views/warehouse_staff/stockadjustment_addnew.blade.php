@@ -205,13 +205,13 @@
                             // string and store this array in
                             // a variable assign the value 
                             // received to first name input field
-                              
+                              console.log(myObj);
                             document.getElementById
-                                ("name"+code).value = myObj[0];
+                                ("name"+code).value = myObj.product;
                                 document.getElementById
-                                ("quantity"+code).value = myObj[1];
+                                ("quantity"+code).value = myObj.quantity;
                                 document.getElementById
-                                ("location"+code).value = myObj[2];
+                                ("location"+code).value = myObj.location;
                               
                             // Assign the value received to
                             // last name input field
