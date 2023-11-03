@@ -51,28 +51,28 @@ class DashboardController extends Controller
       {
            $item = new Stocktake;
            $item ->location = $request->location;
-           $item ->doc_no = $request->docno;
-           $item ->doc_date = $request->docdate;
-           $item ->description = $request->description;
+           $item ->doc_no = filter_var($request->docno, FILTER_SANITIZE_STRING);
+           $item ->doc_date = filter_var($request->docdate, FILTER_SANITIZE_STRING);
+           $item ->description = filter_var($request->description, FILTER_SANITIZE_STRING);
            $item ->product_name = $request->get('product_name')[$key];
-           $item ->code = $request->get('code')[$key];
+           $item ->code = filter_var($request->get('code')[$key], FILTER_SANITIZE_STRING);
            $item ->quantity_available = $request->get('quantity_available')[$key];
-           $item ->new_quantity = $request->get('new_quantity')[$key];
+           $item ->new_quantity = filter_var($request->get('new_quantity')[$key],  FILTER_SANITIZE_NUMBER_INT);
            $item ->quantity_adjusted = $request->get('quantity_adjusted')[$key];
-           $item ->remark = $request->get('remark')[$key];
+           $item ->remark = filter_var($request->get('remark')[$key], FILTER_SANITIZE_STRING);
            // mention other fields here
            $item ->save();
 
            if ($request->get('quantity_adjusted')[$key] != 0){
             $stock = Stock::where('code', '=', $request->get('code')[$key])->first();
-            $stock->quantity=$request->get('new_quantity')[$key];
+            $stock->quantity=filter_var($request->get('new_quantity')[$key],  FILTER_SANITIZE_NUMBER_INT);
             $stock->save();
 
             $newactivity = new Activitylog;
             $newactivity ->location = $request->location;
             $newactivity ->product_name = $request->get('product_name')[$key];
-            $newactivity ->code = $request->get('code')[$key];
-            $newactivity ->quantity = $request->get('new_quantity')[$key];
+            $newactivity ->code = filter_var($request->get('code')[$key], FILTER_SANITIZE_STRING);
+            $newactivity ->quantity = filter_var($request->get('new_quantity')[$key],  FILTER_SANITIZE_NUMBER_INT);
             $newactivity ->variance = $request->get('quantity_adjusted')[$key];
             $newactivity ->activity="Stock Take";
             // mention other fields here
@@ -178,29 +178,29 @@ class DashboardController extends Controller
       foreach($request->input('code') as $key => $value) 
       {
            $item = new Stockadjustment;
-           $item ->invoice_prefix = $request->invoice_prefix;
-           $item ->date = $request->date;
-           $item ->description = $request->description;
+           $item ->invoice_prefix = filter_var($request->invoice_prefix, FILTER_SANITIZE_STRING);
+           $item ->date = filter_var($request->date, FILTER_SANITIZE_STRING);
+           $item ->description = filter_var($request->description, FILTER_SANITIZE_STRING);
            $item ->name = $request->get('name')[$key];
-           $item ->code = $request->get('code')[$key];
+           $item ->code = filter_var($request->get('code')[$key], FILTER_SANITIZE_STRING);
            $item ->location = $request->get('location')[$key];
            $item ->quantity_available = $request->get('quantity_available')[$key];
-           $item ->new_quantity = $request->get('new_quantity')[$key];
+           $item ->new_quantity = filter_var($request->get('new_quantity')[$key], FILTER_SANITIZE_NUMBER_INT);
            $item ->quantity_adjusted = $request->get('quantity_adjusted')[$key];
-           $item ->remark = $request->get('remark')[$key];
+           $item ->remark = filter_var($request->get('remark')[$key], FILTER_SANITIZE_STRING);
            // mention other fields here
            $item ->save();
 
            if ($request->get('quantity_adjusted')[$key] != 0){
             $stock = Stock::where('code', '=', $request->get('code')[$key])->first();
-            $stock->quantity=$request->get('new_quantity')[$key];
+            $stock->quantity=filter_var($request->get('new_quantity')[$key], FILTER_SANITIZE_NUMBER_INT);
             $stock->save();
 
             $newactivity = new Activitylog;
             $newactivity ->location =  $request->get('location')[$key];
             $newactivity ->product_name = $request->get('name')[$key];
-            $newactivity ->code = $request->get('code')[$key];
-            $newactivity ->quantity = $request->get('new_quantity')[$key];
+            $newactivity ->code = filter_var($request->get('code')[$key], FILTER_SANITIZE_STRING);
+            $newactivity ->quantity = filter_var($request->get('new_quantity')[$key], FILTER_SANITIZE_NUMBER_INT);
             $newactivity ->variance = $request->get('quantity_adjusted')[$key];
             $newactivity ->activity="Stock Adjustment";
             // mention other fields here
@@ -212,6 +212,13 @@ class DashboardController extends Controller
 
     public function showDataStockAdjustment($invoice_prefix){
       $stocks = Stockadjustment::where('invoice_prefix', '=', $invoice_prefix)->get();
+      foreach ($stocks as $stock) {
+        if (empty($stock->quantity_adjusted)) {
+            $stock->quantity_adjusted = $stock->quantity_available - $stock->new_quantity;
+            $stock->save(); // Save the updated stock item
+        }
+    }
+    
       return view('warehouse_staff.showstockadjustment',['stocks'=>$stocks]);
     }
 
@@ -244,14 +251,14 @@ class DashboardController extends Controller
        {
               
               $stockreceive = new Stockreceive;
-              $stockreceive->docNo=$req->docNo;
-              $stockreceive->docDate=$req->docDate;
-              $stockreceive->description=$req->description;
-              $stockreceive->product_code=$req->get('product_code')[$key];
-              $stockreceive->product_name=$req->get('product_name')[$key];
-              $stockreceive->quantity=$req->get('quantity')[$key];
-              $stockreceive->location=$req->get('location')[$key];
-              $stockreceive->remark=$req->get('remark')[$key];
+              $stockreceive->docNo=filter_var($req->docNo, FILTER_SANITIZE_STRING);
+              $stockreceive->docDate=filter_var($req->docDate, FILTER_SANITIZE_STRING);
+              $stockreceive->description=filter_var($req->description, FILTER_SANITIZE_STRING);
+              $stockreceive->product_code=filter_var($req->get('product_code')[$key], FILTER_SANITIZE_STRING);
+              $stockreceive->product_name=filter_var($req->get('product_name')[$key], FILTER_SANITIZE_STRING);
+              $stockreceive->quantity=filter_var($req->get('quantity')[$key], FILTER_SANITIZE_NUMBER_INT);
+              $stockreceive->location=filter_var($req->get('location')[$key], FILTER_SANITIZE_STRING);
+              $stockreceive->remark=filter_var($req->get('remark')[$key], FILTER_SANITIZE_STRING);
               $stockreceive->save();
 
             $stock = Stock::where('code', '=', $req->get('product_code')[$key])->first();
@@ -259,11 +266,11 @@ class DashboardController extends Controller
             $stock->save();
             
             $newactivity = new Activitylog;
-            $newactivity ->location =  $req->get('location')[$key];
-            $newactivity ->product_name = $req->get('product_name')[$key];
-            $newactivity ->code = $req->get('product_code')[$key];
+            $newactivity ->location =  filter_var($req->get('location')[$key], FILTER_SANITIZE_STRING);
+            $newactivity ->product_name = filter_var($req->get('product_name')[$key], FILTER_SANITIZE_STRING);
+            $newactivity ->code = filter_var($req->get('product_code')[$key], FILTER_SANITIZE_STRING);
             $newactivity ->quantity = $stock->quantity;
-            $newactivity ->variance = $req->get('quantity')[$key];
+            $newactivity ->variance = filter_var($req->get('quantity')[$key], FILTER_SANITIZE_NUMBER_INT);
             $newactivity ->activity="Stock Received";
             // mention other fields here
             $newactivity ->save();

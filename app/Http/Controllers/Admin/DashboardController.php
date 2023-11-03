@@ -141,8 +141,6 @@ class DashboardController extends Controller
         $users->role="warehouse_staff";
         $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
         $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
-        // $users->by_admin = Auth::user()->name;
-        // $users->action="Added new warehouse staff";
         $users->save();
 
         $logs = new Logging;
