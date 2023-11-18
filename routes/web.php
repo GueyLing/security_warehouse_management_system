@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// role-based access control
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/admin_dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->middleware('role:admin');
 Route::get('/admin_add', 'App\Http\Controllers\Admin\DashboardController@addStaff')->middleware('role:admin');

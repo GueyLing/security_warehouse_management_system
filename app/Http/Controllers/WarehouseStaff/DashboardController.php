@@ -51,6 +51,7 @@ class DashboardController extends Controller
       {
            $item = new Stocktake;
            $item ->location = $request->location;
+           // Input Sanitization
            $item ->doc_no = filter_var($request->docno, FILTER_SANITIZE_STRING);
            $item ->doc_date = filter_var($request->docdate, FILTER_SANITIZE_STRING);
            $item ->description = filter_var($request->description, FILTER_SANITIZE_STRING);
@@ -125,6 +126,7 @@ class DashboardController extends Controller
      {
 
       $stockissue = new Stockissue;
+      // Input Sanitization
       $stockissue ->invoice_prefix = filter_var($req ->invoice_prefix, FILTER_SANITIZE_STRING);
       $stockissue ->date = filter_var($req ->date, FILTER_SANITIZE_STRING);
       $stockissue ->customer = filter_var($req ->customer, FILTER_SANITIZE_STRING);
@@ -178,6 +180,7 @@ class DashboardController extends Controller
       foreach($request->input('code') as $key => $value) 
       {
            $item = new Stockadjustment;
+           // Input Sanitization
            $item ->invoice_prefix = filter_var($request->invoice_prefix, FILTER_SANITIZE_STRING);
            $item ->date = filter_var($request->date, FILTER_SANITIZE_STRING);
            $item ->description = filter_var($request->description, FILTER_SANITIZE_STRING);
@@ -251,6 +254,7 @@ class DashboardController extends Controller
        {
               
               $stockreceive = new Stockreceive;
+              // Input Sanitization
               $stockreceive->docNo=filter_var($req->docNo, FILTER_SANITIZE_STRING);
               $stockreceive->docDate=filter_var($req->docDate, FILTER_SANITIZE_STRING);
               $stockreceive->description=filter_var($req->description, FILTER_SANITIZE_STRING);
@@ -294,6 +298,7 @@ class DashboardController extends Controller
 
       public function storeProduct(Request $request){    
              $item = new Stock;
+             // Input Sanitization
              $item ->location = filter_var($request->location, FILTER_SANITIZE_STRING);
              $item ->product_name = filter_var($request->product_name, FILTER_SANITIZE_STRING);
              $item ->code = filter_var($request->code, FILTER_SANITIZE_STRING);
@@ -316,6 +321,7 @@ class DashboardController extends Controller
       public function edit(Request $req){
       
         $users = Stock::find($req->id);
+        // Input Sanitization
         $users->product_name=filter_var($req->product_name, FILTER_SANITIZE_STRING);
         $users->code=filter_var($req->code, FILTER_SANITIZE_STRING);
         $users->location=filter_var($req->location, FILTER_SANITIZE_STRING);

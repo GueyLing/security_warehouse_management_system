@@ -30,6 +30,7 @@ class DashboardController extends Controller
       }
 
       public function store(Request $req){
+        // Input Validation 
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
@@ -37,12 +38,15 @@ class DashboardController extends Controller
           'phone_no'=>'min:10',
           'ic_passport_no'=>'min:12'
         ]);
+        // Error Handling
         try{
         $users = new User;
+        // Input Sanitization
         $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
         $users->role="purchasing_staff";
+        // Encryption
         $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
         $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         // $users->by_admin = Auth::user()->name;
@@ -76,6 +80,7 @@ class DashboardController extends Controller
       }
 
       public function edit(Request $req){
+        //Input Validation 
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
@@ -83,12 +88,15 @@ class DashboardController extends Controller
           'phone_no'=>'min:10',
           'ic_passport_no'=>'min:12'
         ]);
+        // Error Handling
         try{
         $users = User::find($req->id);
+        // Input Sanitization
         $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
+      // Encryption
         $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
         $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         $users->role=$req->role;
@@ -125,6 +133,7 @@ class DashboardController extends Controller
       }
 
       public function storeWarehouse(Request $req){
+        // Input Validation 
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
@@ -132,9 +141,10 @@ class DashboardController extends Controller
           'phone_no'=>'min:10',
           'ic_passport_no'=>'min:12'
         ]);
-        
+        // Error Handling
         try{
         $users = new User;
+        // Input Sanitization
         $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         $users->password=Hash::make($req->password);
@@ -170,6 +180,7 @@ class DashboardController extends Controller
       }
 
       public function editWarehouse(Request $req){
+        // Input Validation 
         $req->validate([
           'name'=>'required',
           'email'=>'required | email',
@@ -177,12 +188,15 @@ class DashboardController extends Controller
           'phone_no'=>'min:10',
           'ic_passport_no'=>'min:12'
         ]);
+        // Error Handling
         try{
         $users = User::find($req->id);
+        // Input Sanitization
         $users->name= filter_var($req->name, FILTER_SANITIZE_STRING);
         $users->email=$req->email;
         if (isset($req->password))
         $users->password=Hash::make($req->password);
+      // Encryption
         $users->phone_no=encrypt(filter_var($req->phone_no, FILTER_SANITIZE_STRING));
         $users->ic_passport_no=encrypt(filter_var($req->ic_passport_no,FILTER_SANITIZE_STRING));
         $users->role=$req->role;

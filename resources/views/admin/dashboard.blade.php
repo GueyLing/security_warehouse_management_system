@@ -20,6 +20,7 @@
             </tr>
             @foreach ($users as $key => $item)
             <tr style="vertical-align: middle;">
+                {{--  Proper output encoding  --}}
                 <td >{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->email }}</td>
