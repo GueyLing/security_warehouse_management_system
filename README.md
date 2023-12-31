@@ -1,4 +1,4 @@
-There are three modules in the system: the admin module, the purchasing staff module, and the warehouse staff module. 
+There are three modules in the system: the admin module, the purchasing staff module, and the warehouse staff module. __
 **Interface for the Admin**
 <img width="960" alt="2023-10-22 (1)" src="https://github.com/GueyLing/security_warehouse_management_system/assets/70939387/f8bfa08a-f48a-4dc4-aa40-bbc8a38d8611">
 After successful login, the admin can add, delete, view or update the information of purchasing staff and warehouse staff. 
